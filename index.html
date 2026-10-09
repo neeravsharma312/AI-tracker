@@ -563,18 +563,29 @@ var SEED = {
     }
   })();
 
-  /* ---- load data: GitHub raw -> jsDelivr -> same-origin -> baked-in SEED ---- */
+  /* ---- Render the baked-in data IMMEDIATELY so the page is never blank
+          (critical on slow/mobile networks), then try to upgrade to the live
+          GitHub data in the background with a per-request timeout. ---- */
+  var heroTimer=null;
+  renderAll(SEED);
+
   var SOURCES=["https://raw.githubusercontent.com/neeravsharma312/AI-tracker/main/data.json","https://cdn.jsdelivr.net/gh/neeravsharma312/AI-tracker@main/data.json","data.json"];
-  function load(i){
-    if(i>=SOURCES.length){ renderAll(SEED); return; }
-    var u=SOURCES[i]+(SOURCES[i].indexOf("?")<0?("?v="+Date.now()):"");
-    fetch(u,{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); })
-      .then(function(j){ if(j&&j.channels&&j.channels.length) renderAll(j); else throw 0; })
-      .catch(function(){ load(i+1); });
+  function fetchTimeout(u,ms){
+    if(typeof AbortController==="undefined") return fetch(u,{cache:"no-store"});
+    var ac=new AbortController(), t=setTimeout(function(){ac.abort();},ms);
+    return fetch(u,{cache:"no-store",signal:ac.signal}).then(function(r){clearTimeout(t);return r;},function(e){clearTimeout(t);throw e;});
   }
-  load(0);
+  function upgrade(i){
+    if(i>=SOURCES.length){ return; } /* keep SEED already on screen */
+    var u=SOURCES[i]+(SOURCES[i].indexOf("?")<0?("?v="+Date.now()):"");
+    fetchTimeout(u,6000).then(function(r){ if(!r.ok) throw 0; return r.json(); })
+      .then(function(j){ if(j&&j.channels&&j.channels.length){ if(JSON.stringify(j)!==JSON.stringify(SEED)) renderAll(j); } else throw 0; })
+      .catch(function(){ upgrade(i+1); });
+  }
+  upgrade(0);
 
   function renderAll(DATA){
+    if(heroTimer){ clearInterval(heroTimer); heroTimer=null; }
     var ing=document.getElementById("ingest"); if(ing) ing.textContent=DATA.lastIngest||"—";
 
     var tick=document.getElementById("tick");
@@ -584,7 +595,7 @@ var SEED = {
     if(stats){ stats.innerHTML=(DATA.stats||[]).map(function(s){ return '<div class="stat'+(s.live?' live-stat':'')+'"><div class="n" data-to="'+s.n+'">0</div><div class="l">'+esc(s.l)+'</div></div>'; }).join(""); }
 
     /* highlight hero */
-    var hs=document.getElementById("hslides"), hd=document.getElementById("hdots"), hi=0, htimer;
+    var hs=document.getElementById("hslides"), hd=document.getElementById("hdots"), hi=0;
     (DATA.highlights||[]).length && (function(){
       hs.innerHTML=DATA.highlights.map(function(h,i){
         return '<article class="hslide'+(i===0?' on anim-in':'')+'" data-i="'+i+'">'
@@ -598,7 +609,7 @@ var SEED = {
       function show(n){ var sl=hs.querySelectorAll(".hslide"), dt=hd.querySelectorAll("button");
         sl[hi].classList.remove("on","anim-in"); dt[hi].classList.remove("on");
         hi=(n+sl.length)%sl.length; sl[hi].classList.add("on"); if(!RM) sl[hi].classList.add("anim-in"); dt[hi].classList.add("on"); }
-      function auto(){ if(RM) return; clearInterval(htimer); htimer=setInterval(function(){show(hi+1);},6200); }
+      function auto(){ if(RM) return; clearInterval(heroTimer); heroTimer=setInterval(function(){show(hi+1);},6200); }
       auto();
       hd.addEventListener("click",function(e){var b=e.target.closest("button"); if(!b)return; show(+b.dataset.i); auto();});
     })();
