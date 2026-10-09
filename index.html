@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ORF AI Signal</title>
+<meta name="description" content="A daily intelligence feed on the AI landscape — launches, policy, funding, India — for ORF.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* ===== ORF AI Signal — "declassified brief meets live terminal" =====
+   Layout: fixed ambient canvas field · sticky masthead · ticker ·
+   rotating highlight hero · count-up stat bar · five channel columns.
+   Committed single dark theme (all colors explicit). */
+:root{
+  --bg:#0b0a0e; --bg-2:#121019; --bg-3:#1a1724; --raise:#221e2e;
+  --line:#2b2636; --line-soft:#1d1a26;
+  --fg:#f0eaf2; --fg-dim:#aaa0b4; --fg-mute:#6e6578;
+  --accent:#ff7a3d; --accent-2:#ffb14d; --accent-ink:#2a1407;
+  --ch-frontier:#ff9e3d; --ch-open:#46c9d6; --ch-india:#63d389; --ch-gov:#ab8dff; --ch-fund:#ff6f91;
+  --good:#50c98f; --report:#e8b84a; --project:#8aa0e6;
+  --fnt-disp:"Fraunces",Georgia,"Times New Roman",serif;
+  --fnt-body:"Hanken Grotesk",system-ui,-apple-system,Segoe UI,sans-serif;
+  --fnt-mono:"Space Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--fnt-body);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#bg{position:fixed;inset:0;z-index:0;display:block;pointer-events:none}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(130% 90% at 50% -10%,transparent 55%,rgba(0,0,0,.55) 100%)}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;text-wrap:balance}
+.wrap{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding-inline:clamp(16px,3.5vw,40px);padding-block:0 72px}
+
+/* ---------- Masthead ---------- */
+.mast{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;
+  margin-inline:calc(-1*clamp(16px,3.5vw,40px));padding-inline:clamp(16px,3.5vw,40px);padding-block:15px;
+  background:linear-gradient(180deg,rgba(11,10,14,.96),rgba(11,10,14,.80));backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line)}
+.mast-row{display:flex;align-items:center;gap:14px 22px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:14px;min-width:0}
+.brand .mk{font-family:var(--fnt-disp);font-weight:900;font-size:clamp(23px,3.6vw,34px);letter-spacing:-.01em;line-height:.95}
+.brand .mk em{font-style:italic;font-weight:600;color:var(--accent)}
+.brand .sub{font-family:var(--fnt-mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-dim);white-space:nowrap}
+.mmeta{margin-left:auto;display:flex;align-items:center;gap:9px 18px;flex-wrap:wrap;font-family:var(--fnt-mono);font-size:11.5px;letter-spacing:.04em}
+.mmeta .k{color:var(--fg-mute);text-transform:uppercase;margin-right:7px}
+.live{display:inline-flex;align-items:center;gap:7px;color:var(--good)}
+.live .dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 0 rgba(80,201,143,.6);animation:ping 2.4s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(80,201,143,.5)}70%{box-shadow:0 0 0 10px rgba(80,201,143,0)}100%{box-shadow:0 0 0 0 rgba(80,201,143,0)}}
+
+/* ---------- Ticker ---------- */
+.ticker{margin-top:14px;border:1px solid var(--line);border-radius:11px;background:var(--bg-2);overflow:hidden;position:relative}
+.ticker::before{content:"SIGNALS";position:absolute;left:0;top:0;bottom:0;z-index:2;display:flex;align-items:center;padding:0 13px;
+  font-family:var(--fnt-mono);font-size:10px;letter-spacing:.2em;color:var(--accent-ink);background:var(--accent)}
+.tick-track{display:flex;gap:42px;white-space:nowrap;width:max-content;padding:11px 0 11px 108px;animation:slide 64s linear infinite}
+.tick-track span{font-family:var(--fnt-mono);font-size:12.5px;color:var(--fg-dim)}
+.tick-track b{color:var(--fg);font-weight:400}
+.tick-track i{color:var(--accent);font-style:normal;margin-right:7px}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- Highlight hero ---------- */
+.hero{margin-top:26px;position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  background:linear-gradient(135deg,rgba(255,122,61,.12),transparent 46%),var(--bg-2);min-height:300px}
+.hero-glow{position:absolute;inset:-40% -10% auto auto;width:62%;height:160%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,138,74,.22),transparent 70%);filter:blur(12px);
+  animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-8%,6%) scale(1.12)}}
+.hero-in{position:relative;z-index:1;padding:clamp(22px,4vw,46px)}
+.hero .eye{font-family:var(--fnt-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px}
+.hero .eye .bar{height:1px;width:40px;background:linear-gradient(90deg,var(--accent),transparent)}
+.hslide{display:none}
+.hslide.on{display:block}
+.hslide .knob{font-family:var(--fnt-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-mute);margin-top:18px}
+.hslide h1{font-family:var(--fnt-disp);font-weight:600;font-size:clamp(28px,5.4vw,56px);line-height:1.02;letter-spacing:-.015em;margin-top:10px;max-width:17ch}
+.hslide h1 em{font-style:italic;font-weight:500;color:var(--accent-2)}
+.hslide p{color:var(--fg-dim);margin-top:16px;max-width:66ch;font-size:clamp(14px,1.6vw,16.5px)}
+.hslide .meta{margin-top:18px;display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap;font-family:var(--fnt-mono);font-size:11.5px;color:var(--fg-mute)}
+.hslide .meta a{color:var(--fg-dim);text-decoration:none;border-bottom:1px solid var(--line)}
+.hslide .meta a:hover{color:var(--accent);border-color:var(--accent)}
+.hero .dots{position:absolute;left:clamp(22px,4vw,46px);bottom:22px;display:flex;gap:8px;z-index:2}
+.hero .dots button{all:unset;width:26px;height:4px;border-radius:3px;background:var(--line);cursor:pointer;transition:background .3s}
+.hero .dots button.on{background:var(--accent)}
+.anim-in h1,.anim-in p,.anim-in .knob,.anim-in .meta{opacity:0;transform:translateY(14px);animation:rise .62s cubic-bezier(.2,.7,.2,1) forwards}
+.anim-in .knob{animation-delay:.02s}.anim-in h1{animation-delay:.08s}.anim-in p{animation-delay:.18s}.anim-in .meta{animation-delay:.28s}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* ---------- Stat bar ---------- */
+.stats{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{border:1px solid var(--line);border-radius:12px;background:var(--bg-2);padding:16px 18px}
+.stat .n{font-family:var(--fnt-disp);font-weight:700;font-size:clamp(26px,4vw,38px);line-height:1;font-variant-numeric:tabular-nums}
+.stat .l{font-family:var(--fnt-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-mute);margin-top:8px}
+.stat.live-stat .n{color:var(--accent)}
+
+/* jump chips */
+.chips{margin-top:20px;display:flex;gap:9px;flex-wrap:wrap}
+.chips button{all:unset;cursor:pointer;font-family:var(--fnt-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--fg-dim);border:1px solid var(--line);border-radius:30px;padding:7px 14px;transition:.2s}
+.chips button:hover{color:var(--fg);border-color:var(--hue,var(--accent));box-shadow:inset 0 0 0 1px var(--hue,var(--accent))}
+.chips button b{color:var(--hue);font-weight:400}
+
+/* ---------- Channels ---------- */
+.board{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
+.chan{border:1px solid var(--line);border-radius:16px;background:var(--bg-2);overflow:hidden;min-width:0;
+  opacity:0;transform:translateY(18px)}
+.chan.in{animation:rise .6s cubic-bezier(.2,.7,.2,1) forwards}
+.chan-h{display:flex;align-items:center;gap:11px;padding:16px 18px;position:relative}
+.chan-h::after{content:"";position:absolute;left:18px;right:18px;bottom:0;height:1px;background:var(--line-soft)}
+.chan-h .tag{width:26px;height:4px;border-radius:3px;background:var(--hue)}
+.chan-h h3{font-family:var(--fnt-disp);font-weight:700;font-size:17px;letter-spacing:-.01em}
+.chan-h .ct{margin-left:auto;font-family:var(--fnt-mono);font-size:11px;color:var(--fg-mute)}
+.cards{display:flex;flex-direction:column}
+.card{padding:15px 18px;border-top:1px solid var(--line-soft);position:relative;transition:background .25s}
+.card:first-child{border-top:0}
+.card:hover{background:var(--bg-3)}
+.card .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+.card .src{font-family:var(--fnt-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--hue)}
+.card .date{font-family:var(--fnt-mono);font-size:10px;color:var(--fg-mute);margin-left:auto}
+.card h4{font-family:var(--fnt-disp);font-weight:600;font-size:16px;line-height:1.22;letter-spacing:-.005em;margin-bottom:5px}
+.card h4 a{text-decoration:none}
+.card h4 a:hover{color:var(--hue)}
+.card p{font-size:13px;color:var(--fg-dim);margin:0}
+.card .conf{display:inline-flex;align-items:center;font-family:var(--fnt-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:5px;border:1px solid currentColor;margin-left:6px;vertical-align:middle}
+.c-good{color:var(--good)}.c-report{color:var(--report)}.c-project{color:var(--project)}
+.card .newtag{display:none;font-family:var(--fnt-mono);font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--accent-ink);background:var(--accent);padding:2px 6px;border-radius:4px}
+.card.is-new .newtag{display:inline-block}
+.card.is-new::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent)}
+
+.newbar{margin-top:22px;display:none;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--fnt-mono);font-size:12px;color:var(--fg-dim);
+  border:1px solid var(--line);border-left:3px solid var(--accent);padding:11px 15px;border-radius:0 11px 11px 0;background:var(--bg-2)}
+.newbar.show{display:flex}
+.newbar .pill{color:var(--accent-ink);background:var(--accent);padding:2px 9px;border-radius:20px;font-weight:700;font-size:11px}
+
+.legend{margin-top:26px;display:flex;gap:10px 22px;flex-wrap:wrap;font-family:var(--fnt-mono);font-size:11.5px;color:var(--fg-dim);align-items:center}
+.foot{margin-top:22px;padding-top:18px;border-top:1px solid var(--line-soft);color:var(--fg-mute);font-size:12.5px;max-width:88ch;line-height:1.7}
+.foot b{color:var(--fg-dim)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .chan{opacity:1;transform:none}
+  .hero-glow{display:none}
+  .ticker{overflow-x:auto}
+}
+@media (max-width:560px){ .mmeta{width:100%;margin-left:0} .brand{width:100%} }
+noscript{display:block;margin-top:24px;color:var(--fg-dim);font-family:var(--fnt-mono);font-size:13px}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="wrap">
+
+  <header class="mast">
+    <div class="mast-row">
+      <div class="brand">
+        <span class="mk">ORF&nbsp;AI&nbsp;<em>Signal</em></span>
+        <span class="sub">Lead-AI intake feed</span>
+      </div>
+      <div class="mmeta">
+        <span class="live"><span class="dot"></span>LIVE</span>
+        <span><span class="k">IST</span><span id="clock">—</span></span>
+        <span><span class="k">Last ingest</span><span id="ingest">—</span></span>
+      </div>
+    </div>
+    <div class="ticker"><div class="tick-track" id="tick"></div></div>
+  </header>
+
+  <section class="hero" aria-label="Lead signal">
+    <div class="hero-glow"></div>
+    <div class="hero-in">
+      <div class="eye"><span class="bar"></span>Today's highlight</div>
+      <div id="hslides"></div>
+      <div class="dots" id="hdots"></div>
+    </div>
+  </section>
+
+  <section class="stats" id="stats" aria-label="At a glance"></section>
+
+  <nav class="chips" id="chips" aria-label="Jump to channel"></nav>
+
+  <div class="newbar" id="newbar"><span class="pill" id="newcount">0 NEW</span><span>items since your last visit are marked below.</span></div>
+
+  <main class="board" id="board"></main>
+
+  <noscript>This feed needs JavaScript enabled to render.</noscript>
+
+  <div class="legend">
+    <span><span class="conf c-good">Confirmed</span> cross-checked / official</span>
+    <span><span class="conf c-report">Reported</span> single or weaker source</span>
+    <span><span class="conf c-project">Projected</span> forecast, draft, not yet in force</span>
+  </div>
+
+  <footer class="foot">
+    <p><b>How this stays current.</b> The feed is rebuilt each morning (IST) and the page is republished to this address — there is no refresh button. The <b>IST</b> clock is live; <b>NEW</b> marks items dated since your last visit and is stored only in your browser.</p>
+    <p style="margin-top:9px"><b>Provenance.</b> Items are assembled from public sources and carry a confidence tag that reflects source strength, not endorsement. Several figures — private funding rounds, draft legislation, unconfirmed model specs — come from secondary reporting; verify against the linked source before citing in ORF work.</p>
+  </footer>
+</div>
+
+<script>
+var SEED = {
+  "lastIngest": "09 Oct 2026 · 12:58 IST",
+  "buildISO": "2026-10-09T05:30:00Z",
+  "stats": [
+    {
+      "n": 5,
+      "l": "channels"
+    },
+    {
+      "n": 25,
+      "l": "signals tracked"
+    },
+    {
+      "n": 15,
+      "l": "sources linked"
+    },
+    {
+      "n": 1,
+      "l": "refresh / day",
+      "live": true
+    }
+  ],
+  "ticker": [
+    "Claude Haiku 5.5 ships — Anthropic's fastest, cheapest small model",
+    "OpenAI rolls out GPT-6 with an 'Intelligent UI' for everyone",
+    "Mistral Large 4 preview — ~1T-param MoE, open weights to follow",
+    "EU AI Office says GPAI information requests are now operational",
+    "Lambda reportedly raising ~$4B pre-IPO on a backlog near $50B",
+    "IndiaAI Mission backs 20 sovereign models — 12 LLMs, 8 SLMs",
+    "Anthropic & Amazon lock in up to 5 GW of Trainium compute",
+    "Alibaba sues the Pentagon over its 'Chinese military company' listing"
+  ],
+  "highlights": [
+    {
+      "knob": "Frontier · US",
+      "title": "The US frontier now ships <em>weekly</em>",
+      "dek": "Anthropic pushed Opus 5.5, Sonnet 5.5 and now Haiku 5.5 inside a month, while OpenAI opened its GPT-6 line to everyone. The cadence — not any single model — is the story: capability arrives in rapid, overlapping increments.",
+      "src": "Anthropic / OpenAI",
+      "conf": "Reported",
+      "date": "Oct 2026",
+      "url": "https://www.anthropic.com/news"
+    },
+    {
+      "knob": "Open source · China",
+      "title": "The open frontier still runs <em>East</em>",
+      "dek": "Alibaba's Qwen 3.8-Max and DeepSeek's V4-Flash remain the open-weight pace-setters on price and capability, with Mistral Large 4 the main Western entry. The permissive Chinese stack stays the variable to watch.",
+      "src": "The Register",
+      "conf": "Reported",
+      "date": "2026",
+      "url": "https://www.theregister.com/ai-and-ml/2026/08/03/china-turns-up-the-heat-with-open-model-blitz-as-us-model-makers-panic/5282526"
+    },
+    {
+      "knob": "Governance · EU",
+      "title": "EU enforcement turns <em>real</em>",
+      "dek": "The AI Office says its requests for information to model providers are operational, not planned, with 150+ staff and model evaluations under way. No formal penalty has landed yet, but the evidence-gathering phase has begun.",
+      "src": "EU AI Office",
+      "conf": "Reported",
+      "date": "30 Sep 2026",
+      "url": "https://techjacksolutions.com/ai-brief/eu-ai-office-enforcement-rfi-model-evaluation-gpai-2026/"
+    },
+    {
+      "knob": "India · Sovereign AI",
+      "title": "India's sovereign stack <em>scales up</em>",
+      "dek": "The IndiaAI Mission is now backing 20 indigenous models — 12 LLMs and 8 SLMs from Sarvam, BharatGen, Gnani and others — against 9.3M allocated GPU-hours. A widening programme, even as Krutrim's retrenchment shows the margin is thin.",
+      "src": "MeitY · IndiaAI",
+      "conf": "Confirmed",
+      "date": "Jul 2026",
+      "url": "https://www.thehansindia.com/technology/tech-news/government-to-support-20-sovereign-and-indigenous-ai-models-under-the-indiaai-mission-1100537"
+    }
+  ],
+  "channels": [
+    {
+      "name": "Frontier Labs · US",
+      "hue": "--ch-frontier",
+      "items": [
+        {
+          "src": "Anthropic",
+          "date": "2026-10-07",
+          "d": "07 Oct 26",
+          "conf": "Confirmed",
+          "title": "Claude Haiku 5.5 launches",
+          "url": "https://www.anthropic.com/news",
+          "blurb": "Anthropic's new small model, pitched as its fastest, cheapest and most capable yet, for high-volume cost-sensitive work."
+        },
+        {
+          "src": "OpenAI",
+          "date": "2026-10-07",
+          "d": "07 Oct 26",
+          "conf": "Confirmed",
+          "title": "GPT-6 and an 'Intelligent UI' for everyone",
+          "url": "https://openai.com/news/",
+          "blurb": "OpenAI opens its GPT-6 family to general users with an adaptive interface, alongside an October developer guide."
+        },
+        {
+          "src": "Anthropic",
+          "date": "2026-10-06",
+          "d": "06 Oct 26",
+          "conf": "Reported",
+          "title": "Cyber Verification Program expands",
+          "url": "https://www.anthropic.com/news",
+          "blurb": "Vetted security professionals get access to advanced cyber capabilities with reduced blocking, part of a new Cyber Mission."
+        },
+        {
+          "src": "OpenAI",
+          "date": "2026-10-06",
+          "d": "06 Oct 26",
+          "conf": "Reported",
+          "title": "OpenAI & Atlassian expand partnership",
+          "url": "https://openai.com/news/",
+          "blurb": "OpenAI models to power agents across Atlassian and Rovo; thousands of Atlassian developers already use Codex."
+        },
+        {
+          "src": "Anthropic",
+          "date": "2026-10-02",
+          "d": "02 Oct 26",
+          "conf": "Reported",
+          "title": "$100M to train 10,000 engineers",
+          "url": "https://www.anthropic.com/news",
+          "blurb": "A commitment aimed at closing the enterprise AI talent gap by training 10,000 engineers."
+        }
+      ]
+    },
+    {
+      "name": "Open-Weight · Intl",
+      "hue": "--ch-open",
+      "items": [
+        {
+          "src": "StepFun",
+          "date": "2026-10-09",
+          "d": "09 Oct 26",
+          "conf": "Reported",
+          "title": "Step 5 Preview on OpenRouter",
+          "url": "https://aiweekly.co/ai-news-today",
+          "blurb": "A 600B sparse MoE (27B active) with 1M-token context; open weights said to follow around 15 Oct."
+        },
+        {
+          "src": "Mistral",
+          "date": "2026-10-06",
+          "d": "06 Oct 26",
+          "conf": "Reported",
+          "title": "Mistral Large 4 (public preview)",
+          "url": "https://samonai.substack.com/p/ai-brief-october-7-2026",
+          "blurb": "~1T-param MoE (49B active), 1M context, live API; open weights reported listed for end-October."
+        },
+        {
+          "src": "Bilibili",
+          "date": "2026-10-02",
+          "d": "02 Oct 26",
+          "conf": "Reported",
+          "title": "Index-Translate-35B-A3B opened",
+          "url": "https://www.digitalapplied.com/blog/ai-model-releases-october-2026-tracker",
+          "blurb": "Open-weight MoE translation model (35B total, 3B active) covering ~150 languages."
+        },
+        {
+          "src": "Alibaba · Qwen",
+          "date": "2026-08-03",
+          "d": "03 Aug 26",
+          "conf": "Reported",
+          "title": "Qwen 3.8-Max weights released",
+          "url": "https://www.theregister.com/ai-and-ml/2026/08/03/china-turns-up-the-heat-with-open-model-blitz-as-us-model-makers-panic/5282526",
+          "blurb": "~2.4T MoE (~95B active); Alibaba's first open-weight flagship, rated on par with Claude Sonnet 5."
+        },
+        {
+          "src": "DeepSeek",
+          "date": "2026-07-31",
+          "d": "Jul 26",
+          "conf": "Reported",
+          "title": "DeepSeek V4-Flash-0731",
+          "url": "https://www.theregister.com/ai-and-ml/2026/08/03/china-turns-up-the-heat-with-open-model-blitz-as-us-model-makers-panic/5282526",
+          "blurb": "284B model reported within a point of GPT-5.6 at ~40% lower cost, with built-in speculative decoding."
+        }
+      ]
+    },
+    {
+      "name": "India AI",
+      "hue": "--ch-india",
+      "items": [
+        {
+          "src": "MeitY · IndiaAI",
+          "date": "2026-07-23",
+          "d": "23 Jul 26",
+          "conf": "Confirmed",
+          "title": "20 sovereign models backed",
+          "url": "https://www.thehansindia.com/technology/tech-news/government-to-support-20-sovereign-and-indigenous-ai-models-under-the-indiaai-mission-1100537",
+          "blurb": "12 LLMs and 8 SLMs — Sarvam, BharatGen, Gnani, Avataar — against 9.3M allocated GPU-hours."
+        },
+        {
+          "src": "Sarvam AI",
+          "date": "2026-02-20",
+          "d": "Feb 26",
+          "conf": "Confirmed",
+          "title": "Sarvam-105B 'Indus' + 30B, open-sourced",
+          "url": "https://en.wikipedia.org/wiki/Sarvam_AI",
+          "blurb": "Apache-2.0 MoE, 128K context; India's sovereign-LLM entry on mission-provided compute."
+        },
+        {
+          "src": "Artificial Analysis",
+          "date": "2026-05-10",
+          "d": "2026",
+          "conf": "Reported",
+          "title": "India ranks 6th by national model",
+          "url": "https://officechai.com/ai/india-ranks-6th-among-countries-with-own-ai-models-with-sarvam-105b/",
+          "blurb": "The country leaderboard places India 6th on the strength of Sarvam-105B — real but still trailing."
+        },
+        {
+          "src": "Ola · Krutrim",
+          "date": "2026-04-15",
+          "d": "Apr 26",
+          "conf": "Reported",
+          "title": "Krutrim retrenches",
+          "url": "https://techmitra.in/india-indigenous-ai-model/",
+          "blurb": "Shut its consumer assistant Kruti and paused its next model — a caution on the economics."
+        },
+        {
+          "src": "MeitY",
+          "date": "2026-02-10",
+          "d": "2026",
+          "conf": "Confirmed",
+          "title": "IndiaAI Mission & the rulebook",
+          "url": "https://techmitra.in/india-indigenous-ai-model/",
+          "blurb": "₹10,372-crore, five-year programme; an AI Safety Institute, and IT Amendment Rules notified in February."
+        }
+      ]
+    },
+    {
+      "name": "Governance & Policy",
+      "hue": "--ch-gov",
+      "items": [
+        {
+          "src": "EU AI Office",
+          "date": "2026-09-30",
+          "d": "30 Sep 26",
+          "conf": "Reported",
+          "title": "GPAI information requests operational",
+          "url": "https://techjacksolutions.com/ai-brief/eu-ai-office-enforcement-rfi-model-evaluation-gpai-2026/",
+          "blurb": "Director Sioli says requests for information to model providers are live, not planned; 150+ staff and model evaluations under way."
+        },
+        {
+          "src": "EU Commission",
+          "date": "2026-08-02",
+          "d": "02 Aug 26",
+          "conf": "Confirmed",
+          "title": "AI Act enforcement goes live",
+          "url": "https://letsdatascience.com/news/eu-activates-ai-act-powers-over-model-providers-1db889b5",
+          "blurb": "Powers over general-purpose model providers; fines reach €15M or 3% of global turnover."
+        },
+        {
+          "src": "EU · Reg 2026/1744",
+          "date": "2026-07-27",
+          "d": "27 Jul 26",
+          "conf": "Confirmed",
+          "title": "Digital Omnibus delays high-risk rules",
+          "url": "https://ai2.work/blog/eu-ai-act-enforcement-goes-live-new-transparency-rules-explained",
+          "blurb": "High-risk obligations pushed out 12–16 months; standalone Annex III now moves to December 2027."
+        },
+        {
+          "src": "AI Office",
+          "date": "2026-08-02",
+          "d": "2026",
+          "conf": "Reported",
+          "title": "Code of Practice at 180+ signatories",
+          "url": "https://aiweekly.co/alerts/ai-act-adapted-to-chatgpt-rather-than-breaking-uuk-argues",
+          "blurb": "Anthropic, Google, Microsoft, OpenAI and Mistral signed; Meta declined; xAI signed only the safety chapter."
+        },
+        {
+          "src": "Anthropic",
+          "date": "2026-10-08",
+          "d": "08 Oct 26",
+          "conf": "Reported",
+          "title": "Usage policy updated for 2026",
+          "url": "https://www.anthropic.com/news",
+          "blurb": "Reported to add a section on not undermining democratic processes alongside its 2026 policy refresh."
+        }
+      ]
+    },
+    {
+      "name": "Funding & Geopolitics",
+      "hue": "--ch-fund",
+      "items": [
+        {
+          "src": "Reported · WSJ",
+          "date": "2026-10-06",
+          "d": "06 Oct 26",
+          "conf": "Reported",
+          "title": "Lambda raising up to $4B pre-IPO",
+          "url": "https://samonai.substack.com/p/ai-brief-october-7-2026",
+          "blurb": "Reportedly at a ~$14.5B pre-money valuation; backlog grew toward $50B, led largely by Anthropic's $35B commitment."
+        },
+        {
+          "src": "Reported",
+          "date": "2026-10-08",
+          "d": "08 Oct 26",
+          "conf": "Reported",
+          "title": "Tencent weighs ~$5B offshore bond",
+          "url": "https://aiweekly.co/ai-news-today",
+          "blurb": "Said to be considering a bond sale to fund its AI buildout amid US chip-export restrictions."
+        },
+        {
+          "src": "Reported",
+          "date": "2026-10-08",
+          "d": "08 Oct 26",
+          "conf": "Reported",
+          "title": "Alibaba sues the Pentagon",
+          "url": "https://aiweekly.co/ai-news-today",
+          "blurb": "Challenges its listing as a 'Chinese military company' under Section 1260H — a US–China commerce flashpoint."
+        },
+        {
+          "src": "Anthropic · AWS",
+          "date": "2026-04-20",
+          "d": "Apr 26",
+          "conf": "Confirmed",
+          "title": "Up to 5 GW of Trainium compute",
+          "url": "https://www.anthropic.com/news",
+          "blurb": "A multi-year Anthropic–Amazon compute commitment at tens of billions in scale — compute as strategy."
+        },
+        {
+          "src": "Reported",
+          "date": "2026-10-08",
+          "d": "08 Oct 26",
+          "conf": "Reported",
+          "title": "Manus parent closes $500M+ round",
+          "url": "https://aiweekly.co/ai-news-today",
+          "blurb": "Butterfly Effect reportedly raised over $500M at a targeted ~$4B valuation."
+        }
+      ]
+    }
+  ]
+};
+(function(){
+  "use strict";
+  var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});};
+  var confClass={Confirmed:"c-good",Reported:"c-report",Projected:"c-project"};
+
+  /* ---- live IST clock (runs immediately) ---- */
+  var clock=document.getElementById("clock");
+  function tc(){ try{ clock.textContent=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(new Date()); }catch(e){ clock.textContent="—"; } }
+  tc(); setInterval(tc,1000);
+
+  /* ---- ambient canvas constellation (runs immediately) ---- */
+  (function(){
+    var cv=document.getElementById("bg"); if(!cv) return; var cx=cv.getContext("2d");
+    var W,H,DPR,pts=[],raf,running=true;
+    function size(){ DPR=Math.min(window.devicePixelRatio||1,2); W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR; cv.style.width=innerWidth+"px"; cv.style.height=innerHeight+"px";
+      var target=Math.min(90,Math.floor(innerWidth*innerHeight/16000)); pts=[];
+      for(var i=0;i<target;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22*DPR,vy:(Math.random()-.5)*.22*DPR});
+    }
+    function frame(){
+      cx.clearRect(0,0,W,H);
+      for(var i=0;i<pts.length;i++){ var p=pts[i]; p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1; }
+      var md=120*DPR;
+      for(var a=0;a<pts.length;a++){ for(var b=a+1;b<pts.length;b++){
+        var dx=pts[a].x-pts[b].x, dy=pts[a].y-pts[b].y, dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<md){ var al=(1-dist/md)*.18; cx.strokeStyle="rgba(255,138,74,"+al.toFixed(3)+")"; cx.lineWidth=DPR*.6; cx.beginPath(); cx.moveTo(pts[a].x,pts[a].y); cx.lineTo(pts[b].x,pts[b].y); cx.stroke(); } } }
+      for(var k=0;k<pts.length;k++){ cx.fillStyle="rgba(255,170,110,.35)"; cx.beginPath(); cx.arc(pts[k].x,pts[k].y,DPR*1.1,0,6.2832); cx.fill(); }
+      if(running) raf=requestAnimationFrame(frame);
+    }
+    size();
+    if(RM){ frame(); }
+    else { frame();
+      addEventListener("resize",function(){ cancelAnimationFrame(raf); size(); if(running)frame(); });
+      document.addEventListener("visibilitychange",function(){ running=!document.hidden; if(running) frame(); else cancelAnimationFrame(raf); });
+    }
+  })();
+
+  /* ---- load data: GitHub raw -> jsDelivr -> same-origin -> baked-in SEED ---- */
+  var SOURCES=["https://raw.githubusercontent.com/neeravsharma312/AI-tracker/main/data.json","https://cdn.jsdelivr.net/gh/neeravsharma312/AI-tracker@main/data.json","data.json"];
+  function load(i){
+    if(i>=SOURCES.length){ renderAll(SEED); return; }
+    var u=SOURCES[i]+(SOURCES[i].indexOf("?")<0?("?v="+Date.now()):"");
+    fetch(u,{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); })
+      .then(function(j){ if(j&&j.channels&&j.channels.length) renderAll(j); else throw 0; })
+      .catch(function(){ load(i+1); });
+  }
+  load(0);
+
+  function renderAll(DATA){
+    var ing=document.getElementById("ingest"); if(ing) ing.textContent=DATA.lastIngest||"—";
+
+    var tick=document.getElementById("tick");
+    if(tick){ var one=(DATA.ticker||[]).map(function(t){return '<span><i>▲</i><b>'+esc(t)+'</b></span>';}).join(""); tick.innerHTML=one+one; }
+
+    var stats=document.getElementById("stats");
+    if(stats){ stats.innerHTML=(DATA.stats||[]).map(function(s){ return '<div class="stat'+(s.live?' live-stat':'')+'"><div class="n" data-to="'+s.n+'">0</div><div class="l">'+esc(s.l)+'</div></div>'; }).join(""); }
+
+    /* highlight hero */
+    var hs=document.getElementById("hslides"), hd=document.getElementById("hdots"), hi=0, htimer;
+    (DATA.highlights||[]).length && (function(){
+      hs.innerHTML=DATA.highlights.map(function(h,i){
+        return '<article class="hslide'+(i===0?' on anim-in':'')+'" data-i="'+i+'">'
+          +'<div class="knob">'+esc(h.knob)+'</div>'
+          +'<h1>'+h.title+'</h1>'
+          +'<p>'+esc(h.dek)+'</p>'
+          +'<div class="meta"><span>'+esc(h.src)+'</span><span>·</span><span class="conf '+(confClass[h.conf]||"c-report")+'">'+esc(h.conf)+'</span><span>·</span><span>'+esc(h.date)+'</span><span>·</span><a href="'+encodeURI(h.url)+'" target="_blank" rel="noopener">source ↗</a></div>'
+          +'</article>';
+      }).join("");
+      hd.innerHTML=DATA.highlights.map(function(_,i){return '<button data-i="'+i+'" class="'+(i===0?'on':'')+'" aria-label="Highlight '+(i+1)+'"></button>';}).join("");
+      function show(n){ var sl=hs.querySelectorAll(".hslide"), dt=hd.querySelectorAll("button");
+        sl[hi].classList.remove("on","anim-in"); dt[hi].classList.remove("on");
+        hi=(n+sl.length)%sl.length; sl[hi].classList.add("on"); if(!RM) sl[hi].classList.add("anim-in"); dt[hi].classList.add("on"); }
+      function auto(){ if(RM) return; clearInterval(htimer); htimer=setInterval(function(){show(hi+1);},6200); }
+      auto();
+      hd.addEventListener("click",function(e){var b=e.target.closest("button"); if(!b)return; show(+b.dataset.i); auto();});
+    })();
+
+    /* channels + chips */
+    var board=document.getElementById("board"), chips=document.getElementById("chips");
+    board.innerHTML=(DATA.channels||[]).map(function(ch,ci){
+      var cards=ch.items.map(function(it){
+        return '<article class="card" data-date="'+esc(it.date)+'">'
+          +'<div class="top"><span class="src">'+esc(it.src)+'</span><span class="newtag">NEW</span><span class="date">'+esc(it.d)+'</span></div>'
+          +'<h4><a href="'+encodeURI(it.url)+'" target="_blank" rel="noopener">'+esc(it.title)+'</a></h4>'
+          +'<p>'+esc(it.blurb)+' <span class="conf '+(confClass[it.conf]||"c-report")+'">'+esc(it.conf)+'</span></p>'
+          +'</article>';
+      }).join("");
+      return '<section class="chan" id="ch'+ci+'" style="--hue:var('+ch.hue+')">'
+        +'<div class="chan-h"><span class="tag"></span><h3>'+esc(ch.name)+'</h3><span class="ct">'+ch.items.length+' signals</span></div>'
+        +'<div class="cards">'+cards+'</div></section>';
+    }).join("");
+    chips.innerHTML=(DATA.channels||[]).map(function(ch,ci){ return '<button data-t="ch'+ci+'" style="--hue:var('+ch.hue+')"><b>■</b> '+esc(ch.name)+'</button>'; }).join("");
+    chips.addEventListener("click",function(e){var b=e.target.closest("button"); if(!b)return; var t=document.getElementById(b.dataset.t); if(t) t.scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});});
+
+    /* reveal channels */
+    var chans=board.querySelectorAll(".chan");
+    if(RM||!("IntersectionObserver" in window)){ chans.forEach(function(c){c.classList.add("in");}); }
+    else { var io=new IntersectionObserver(function(es){es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target);} });},{threshold:.12}); chans.forEach(function(c){io.observe(c);}); }
+
+    /* count-up */
+    function countUp(el){ var to=+el.dataset.to, dur=1100, t0=null; if(RM){ el.textContent=to; return; }
+      function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); el.textContent=Math.round(to*(1-Math.pow(1-p,3))); if(p<1)requestAnimationFrame(step); } requestAnimationFrame(step); }
+    var nums=document.querySelectorAll(".stat .n");
+    if("IntersectionObserver" in window){ var io2=new IntersectionObserver(function(es){es.forEach(function(en){ if(en.isIntersecting){ countUp(en.target); io2.unobserve(en.target);} });},{threshold:.5}); nums.forEach(function(n){io2.observe(n);}); }
+    else { nums.forEach(countUp); }
+
+    /* NEW since last visit */
+    try{
+      var KEY="orf-ai-signal-lastvisit", prev=null;
+      try{ prev=localStorage.getItem(KEY); }catch(e){}
+      var build=new Date(DATA.buildISO||Date.now());
+      var since=prev?new Date(prev):new Date(build.getTime()-3*864e5);
+      var n=0;
+      document.querySelectorAll(".card[data-date]").forEach(function(c){ var d=new Date(c.getAttribute("data-date")+"T12:00:00Z"); if(d>since){ c.classList.add("is-new"); n++; } });
+      if(n>0){ var nb=document.getElementById("newbar"); document.getElementById("newcount").textContent=n+" NEW"; nb.classList.add("show"); }
+      try{ localStorage.setItem(KEY,new Date().toISOString()); }catch(e){}
+    }catch(e){}
+  }
+})();
+</script>
+</body>
+</html>

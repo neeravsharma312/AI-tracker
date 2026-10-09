@@ -1,0 +1,328 @@
+{
+  "lastIngest": "09 Oct 2026 · 12:58 IST",
+  "buildISO": "2026-10-09T05:30:00Z",
+  "stats": [
+    {
+      "n": 5,
+      "l": "channels"
+    },
+    {
+      "n": 25,
+      "l": "signals tracked"
+    },
+    {
+      "n": 15,
+      "l": "sources linked"
+    },
+    {
+      "n": 1,
+      "l": "refresh / day",
+      "live": true
+    }
+  ],
+  "ticker": [
+    "Claude Haiku 5.5 ships — Anthropic's fastest, cheapest small model",
+    "OpenAI rolls out GPT-6 with an 'Intelligent UI' for everyone",
+    "Mistral Large 4 preview — ~1T-param MoE, open weights to follow",
+    "EU AI Office says GPAI information requests are now operational",
+    "Lambda reportedly raising ~$4B pre-IPO on a backlog near $50B",
+    "IndiaAI Mission backs 20 sovereign models — 12 LLMs, 8 SLMs",
+    "Anthropic & Amazon lock in up to 5 GW of Trainium compute",
+    "Alibaba sues the Pentagon over its 'Chinese military company' listing"
+  ],
+  "highlights": [
+    {
+      "knob": "Frontier · US",
+      "title": "The US frontier now ships <em>weekly</em>",
+      "dek": "Anthropic pushed Opus 5.5, Sonnet 5.5 and now Haiku 5.5 inside a month, while OpenAI opened its GPT-6 line to everyone. The cadence — not any single model — is the story: capability arrives in rapid, overlapping increments.",
+      "src": "Anthropic / OpenAI",
+      "conf": "Reported",
+      "date": "Oct 2026",
+      "url": "https://www.anthropic.com/news"
+    },
+    {
+      "knob": "Open source · China",
+      "title": "The open frontier still runs <em>East</em>",
+      "dek": "Alibaba's Qwen 3.8-Max and DeepSeek's V4-Flash remain the open-weight pace-setters on price and capability, with Mistral Large 4 the main Western entry. The permissive Chinese stack stays the variable to watch.",
+      "src": "The Register",
+      "conf": "Reported",
+      "date": "2026",
+      "url": "https://www.theregister.com/ai-and-ml/2026/08/03/china-turns-up-the-heat-with-open-model-blitz-as-us-model-makers-panic/5282526"
+    },
+    {
+      "knob": "Governance · EU",
+      "title": "EU enforcement turns <em>real</em>",
+      "dek": "The AI Office says its requests for information to model providers are operational, not planned, with 150+ staff and model evaluations under way. No formal penalty has landed yet, but the evidence-gathering phase has begun.",
+      "src": "EU AI Office",
+      "conf": "Reported",
+      "date": "30 Sep 2026",
+      "url": "https://techjacksolutions.com/ai-brief/eu-ai-office-enforcement-rfi-model-evaluation-gpai-2026/"
+    },
+    {
+      "knob": "India · Sovereign AI",
+      "title": "India's sovereign stack <em>scales up</em>",
+      "dek": "The IndiaAI Mission is now backing 20 indigenous models — 12 LLMs and 8 SLMs from Sarvam, BharatGen, Gnani and others — against 9.3M allocated GPU-hours. A widening programme, even as Krutrim's retrenchment shows the margin is thin.",
+      "src": "MeitY · IndiaAI",
+      "conf": "Confirmed",
+      "date": "Jul 2026",
+      "url": "https://www.thehansindia.com/technology/tech-news/government-to-support-20-sovereign-and-indigenous-ai-models-under-the-indiaai-mission-1100537"
+    }
+  ],
+  "channels": [
+    {
+      "name": "Frontier Labs · US",
+      "hue": "--ch-frontier",
+      "items": [
+        {
+          "src": "Anthropic",
+          "date": "2026-10-07",
+          "d": "07 Oct 26",
+          "conf": "Confirmed",
+          "title": "Claude Haiku 5.5 launches",
+          "url": "https://www.anthropic.com/news",
+          "blurb": "Anthropic's new small model, pitched as its fastest, cheapest and most capable yet, for high-volume cost-sensitive work."
+        },
+        {
+          "src": "OpenAI",
+          "date": "2026-10-07",
+          "d": "07 Oct 26",
+          "conf": "Confirmed",
+          "title": "GPT-6 and an 'Intelligent UI' for everyone",
+          "url": "https://openai.com/news/",
+          "blurb": "OpenAI opens its GPT-6 family to general users with an adaptive interface, alongside an October developer guide."
+        },
+        {
+          "src": "Anthropic",
+          "date": "2026-10-06",
+          "d": "06 Oct 26",
+          "conf": "Reported",
+          "title": "Cyber Verification Program expands",
+          "url": "https://www.anthropic.com/news",
+          "blurb": "Vetted security professionals get access to advanced cyber capabilities with reduced blocking, part of a new Cyber Mission."
+        },
+        {
+          "src": "OpenAI",
+          "date": "2026-10-06",
+          "d": "06 Oct 26",
+          "conf": "Reported",
+          "title": "OpenAI & Atlassian expand partnership",
+          "url": "https://openai.com/news/",
+          "blurb": "OpenAI models to power agents across Atlassian and Rovo; thousands of Atlassian developers already use Codex."
+        },
+        {
+          "src": "Anthropic",
+          "date": "2026-10-02",
+          "d": "02 Oct 26",
+          "conf": "Reported",
+          "title": "$100M to train 10,000 engineers",
+          "url": "https://www.anthropic.com/news",
+          "blurb": "A commitment aimed at closing the enterprise AI talent gap by training 10,000 engineers."
+        }
+      ]
+    },
+    {
+      "name": "Open-Weight · Intl",
+      "hue": "--ch-open",
+      "items": [
+        {
+          "src": "StepFun",
+          "date": "2026-10-09",
+          "d": "09 Oct 26",
+          "conf": "Reported",
+          "title": "Step 5 Preview on OpenRouter",
+          "url": "https://aiweekly.co/ai-news-today",
+          "blurb": "A 600B sparse MoE (27B active) with 1M-token context; open weights said to follow around 15 Oct."
+        },
+        {
+          "src": "Mistral",
+          "date": "2026-10-06",
+          "d": "06 Oct 26",
+          "conf": "Reported",
+          "title": "Mistral Large 4 (public preview)",
+          "url": "https://samonai.substack.com/p/ai-brief-october-7-2026",
+          "blurb": "~1T-param MoE (49B active), 1M context, live API; open weights reported listed for end-October."
+        },
+        {
+          "src": "Bilibili",
+          "date": "2026-10-02",
+          "d": "02 Oct 26",
+          "conf": "Reported",
+          "title": "Index-Translate-35B-A3B opened",
+          "url": "https://www.digitalapplied.com/blog/ai-model-releases-october-2026-tracker",
+          "blurb": "Open-weight MoE translation model (35B total, 3B active) covering ~150 languages."
+        },
+        {
+          "src": "Alibaba · Qwen",
+          "date": "2026-08-03",
+          "d": "03 Aug 26",
+          "conf": "Reported",
+          "title": "Qwen 3.8-Max weights released",
+          "url": "https://www.theregister.com/ai-and-ml/2026/08/03/china-turns-up-the-heat-with-open-model-blitz-as-us-model-makers-panic/5282526",
+          "blurb": "~2.4T MoE (~95B active); Alibaba's first open-weight flagship, rated on par with Claude Sonnet 5."
+        },
+        {
+          "src": "DeepSeek",
+          "date": "2026-07-31",
+          "d": "Jul 26",
+          "conf": "Reported",
+          "title": "DeepSeek V4-Flash-0731",
+          "url": "https://www.theregister.com/ai-and-ml/2026/08/03/china-turns-up-the-heat-with-open-model-blitz-as-us-model-makers-panic/5282526",
+          "blurb": "284B model reported within a point of GPT-5.6 at ~40% lower cost, with built-in speculative decoding."
+        }
+      ]
+    },
+    {
+      "name": "India AI",
+      "hue": "--ch-india",
+      "items": [
+        {
+          "src": "MeitY · IndiaAI",
+          "date": "2026-07-23",
+          "d": "23 Jul 26",
+          "conf": "Confirmed",
+          "title": "20 sovereign models backed",
+          "url": "https://www.thehansindia.com/technology/tech-news/government-to-support-20-sovereign-and-indigenous-ai-models-under-the-indiaai-mission-1100537",
+          "blurb": "12 LLMs and 8 SLMs — Sarvam, BharatGen, Gnani, Avataar — against 9.3M allocated GPU-hours."
+        },
+        {
+          "src": "Sarvam AI",
+          "date": "2026-02-20",
+          "d": "Feb 26",
+          "conf": "Confirmed",
+          "title": "Sarvam-105B 'Indus' + 30B, open-sourced",
+          "url": "https://en.wikipedia.org/wiki/Sarvam_AI",
+          "blurb": "Apache-2.0 MoE, 128K context; India's sovereign-LLM entry on mission-provided compute."
+        },
+        {
+          "src": "Artificial Analysis",
+          "date": "2026-05-10",
+          "d": "2026",
+          "conf": "Reported",
+          "title": "India ranks 6th by national model",
+          "url": "https://officechai.com/ai/india-ranks-6th-among-countries-with-own-ai-models-with-sarvam-105b/",
+          "blurb": "The country leaderboard places India 6th on the strength of Sarvam-105B — real but still trailing."
+        },
+        {
+          "src": "Ola · Krutrim",
+          "date": "2026-04-15",
+          "d": "Apr 26",
+          "conf": "Reported",
+          "title": "Krutrim retrenches",
+          "url": "https://techmitra.in/india-indigenous-ai-model/",
+          "blurb": "Shut its consumer assistant Kruti and paused its next model — a caution on the economics."
+        },
+        {
+          "src": "MeitY",
+          "date": "2026-02-10",
+          "d": "2026",
+          "conf": "Confirmed",
+          "title": "IndiaAI Mission & the rulebook",
+          "url": "https://techmitra.in/india-indigenous-ai-model/",
+          "blurb": "₹10,372-crore, five-year programme; an AI Safety Institute, and IT Amendment Rules notified in February."
+        }
+      ]
+    },
+    {
+      "name": "Governance & Policy",
+      "hue": "--ch-gov",
+      "items": [
+        {
+          "src": "EU AI Office",
+          "date": "2026-09-30",
+          "d": "30 Sep 26",
+          "conf": "Reported",
+          "title": "GPAI information requests operational",
+          "url": "https://techjacksolutions.com/ai-brief/eu-ai-office-enforcement-rfi-model-evaluation-gpai-2026/",
+          "blurb": "Director Sioli says requests for information to model providers are live, not planned; 150+ staff and model evaluations under way."
+        },
+        {
+          "src": "EU Commission",
+          "date": "2026-08-02",
+          "d": "02 Aug 26",
+          "conf": "Confirmed",
+          "title": "AI Act enforcement goes live",
+          "url": "https://letsdatascience.com/news/eu-activates-ai-act-powers-over-model-providers-1db889b5",
+          "blurb": "Powers over general-purpose model providers; fines reach €15M or 3% of global turnover."
+        },
+        {
+          "src": "EU · Reg 2026/1744",
+          "date": "2026-07-27",
+          "d": "27 Jul 26",
+          "conf": "Confirmed",
+          "title": "Digital Omnibus delays high-risk rules",
+          "url": "https://ai2.work/blog/eu-ai-act-enforcement-goes-live-new-transparency-rules-explained",
+          "blurb": "High-risk obligations pushed out 12–16 months; standalone Annex III now moves to December 2027."
+        },
+        {
+          "src": "AI Office",
+          "date": "2026-08-02",
+          "d": "2026",
+          "conf": "Reported",
+          "title": "Code of Practice at 180+ signatories",
+          "url": "https://aiweekly.co/alerts/ai-act-adapted-to-chatgpt-rather-than-breaking-uuk-argues",
+          "blurb": "Anthropic, Google, Microsoft, OpenAI and Mistral signed; Meta declined; xAI signed only the safety chapter."
+        },
+        {
+          "src": "Anthropic",
+          "date": "2026-10-08",
+          "d": "08 Oct 26",
+          "conf": "Reported",
+          "title": "Usage policy updated for 2026",
+          "url": "https://www.anthropic.com/news",
+          "blurb": "Reported to add a section on not undermining democratic processes alongside its 2026 policy refresh."
+        }
+      ]
+    },
+    {
+      "name": "Funding & Geopolitics",
+      "hue": "--ch-fund",
+      "items": [
+        {
+          "src": "Reported · WSJ",
+          "date": "2026-10-06",
+          "d": "06 Oct 26",
+          "conf": "Reported",
+          "title": "Lambda raising up to $4B pre-IPO",
+          "url": "https://samonai.substack.com/p/ai-brief-october-7-2026",
+          "blurb": "Reportedly at a ~$14.5B pre-money valuation; backlog grew toward $50B, led largely by Anthropic's $35B commitment."
+        },
+        {
+          "src": "Reported",
+          "date": "2026-10-08",
+          "d": "08 Oct 26",
+          "conf": "Reported",
+          "title": "Tencent weighs ~$5B offshore bond",
+          "url": "https://aiweekly.co/ai-news-today",
+          "blurb": "Said to be considering a bond sale to fund its AI buildout amid US chip-export restrictions."
+        },
+        {
+          "src": "Reported",
+          "date": "2026-10-08",
+          "d": "08 Oct 26",
+          "conf": "Reported",
+          "title": "Alibaba sues the Pentagon",
+          "url": "https://aiweekly.co/ai-news-today",
+          "blurb": "Challenges its listing as a 'Chinese military company' under Section 1260H — a US–China commerce flashpoint."
+        },
+        {
+          "src": "Anthropic · AWS",
+          "date": "2026-04-20",
+          "d": "Apr 26",
+          "conf": "Confirmed",
+          "title": "Up to 5 GW of Trainium compute",
+          "url": "https://www.anthropic.com/news",
+          "blurb": "A multi-year Anthropic–Amazon compute commitment at tens of billions in scale — compute as strategy."
+        },
+        {
+          "src": "Reported",
+          "date": "2026-10-08",
+          "d": "08 Oct 26",
+          "conf": "Reported",
+          "title": "Manus parent closes $500M+ round",
+          "url": "https://aiweekly.co/ai-news-today",
+          "blurb": "Butterfly Effect reportedly raised over $500M at a targeted ~$4B valuation."
+        }
+      ]
+    }
+  ]
+}
